@@ -38,7 +38,7 @@ export default function Consulta() {
 
     try {
       // Crear la consulta
-      const { data: consultaData, error: consultaError } = await supabase
+      const { data: consultaData, error: consultaError } = await (supabase as any)
         .from('consultas')
         .insert({
           nombre_potencial_cliente: formData.nombreCliente,
@@ -53,7 +53,7 @@ export default function Consulta() {
       if (consultaError) throw consultaError;
 
       // Buscar coincidencias en clientes actuales
-      const { data: clientesCoincidentes, error: searchError } = await supabase
+      const { data: clientesCoincidentes, error: searchError } = await (supabase as any)
         .from('clientes_actuales')
         .select('*')
         .or(`ruc.eq.${formData.ruc},nombre_cliente.ilike.%${formData.nombreCliente}%`);
@@ -63,20 +63,19 @@ export default function Consulta() {
       const tieneConflictoInicial = (clientesCoincidentes?.length || 0) > 0;
 
       // Actualizar consulta con resultado inicial
-      await supabase
+      await (supabase as any)
         .from('consultas')
         .update({ 
           tiene_conflicto: tieneConflictoInicial,
           estado_final: tieneConflictoInicial ? 'en_proceso' : 'finalizado'
         })
-        .eq('id', consultaData.id);
+        .eq('id', consultaData?.id);
 
-      // Registrar en auditoría
-      await supabase
+      await (supabase as any)
         .from('auditoria')
         .insert({
           evento: 'Nueva consulta creada',
-          consulta_id: consultaData.id,
+          consulta_id: consultaData?.id ?? null,
           usuario_responsable: user.id,
           detalle: {
             cliente: formData.nombreCliente,
@@ -87,8 +86,7 @@ export default function Consulta() {
         });
 
       if (tieneConflictoInicial) {
-        // Obtener todos los admin de sede
-        const { data: admins } = await supabase
+        const { data: admins } = await (supabase as any)
           .from('usuarios')
           .select('id')
           .in('rol', ['admin_sede', 'admin_central']);
@@ -103,7 +101,7 @@ export default function Consulta() {
             estado: 'pendiente',
           }));
 
-          await supabase
+          await (supabase as any)
             .from('notificaciones')
             .insert(notificaciones);
         }

@@ -33,7 +33,7 @@ export default function MisConsultas() {
 
   const fetchConsultas = async () => {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('consultas')
         .select('*')
         .eq('usuario_solicitante', user?.id)
