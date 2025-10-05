@@ -14,16 +14,407 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      areas: {
+        Row: {
+          correo_contacto: string | null
+          created_at: string | null
+          id: string
+          nombre_area: string
+          responsable_area: string | null
+          sede_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          correo_contacto?: string | null
+          created_at?: string | null
+          id?: string
+          nombre_area: string
+          responsable_area?: string | null
+          sede_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          correo_contacto?: string | null
+          created_at?: string | null
+          id?: string
+          nombre_area?: string
+          responsable_area?: string | null
+          sede_id?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "areas_sede_id_fkey"
+            columns: ["sede_id"]
+            isOneToOne: false
+            referencedRelation: "sedes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      auditoria: {
+        Row: {
+          consulta_id: string | null
+          created_at: string | null
+          detalle: Json | null
+          evento: string
+          fecha_evento: string | null
+          id: string
+          usuario_responsable: string | null
+        }
+        Insert: {
+          consulta_id?: string | null
+          created_at?: string | null
+          detalle?: Json | null
+          evento: string
+          fecha_evento?: string | null
+          id?: string
+          usuario_responsable?: string | null
+        }
+        Update: {
+          consulta_id?: string | null
+          created_at?: string | null
+          detalle?: Json | null
+          evento?: string
+          fecha_evento?: string | null
+          id?: string
+          usuario_responsable?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "auditoria_consulta_id_fkey"
+            columns: ["consulta_id"]
+            isOneToOne: false
+            referencedRelation: "consultas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "auditoria_usuario_responsable_fkey"
+            columns: ["usuario_responsable"]
+            isOneToOne: false
+            referencedRelation: "usuarios"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      clientes_actuales: {
+        Row: {
+          area_id: string | null
+          created_at: string | null
+          estado: string | null
+          fecha_registro: string | null
+          id: string
+          nombre_cliente: string
+          ruc: string
+          sede_id: string
+          tipo_servicio: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          area_id?: string | null
+          created_at?: string | null
+          estado?: string | null
+          fecha_registro?: string | null
+          id?: string
+          nombre_cliente: string
+          ruc: string
+          sede_id: string
+          tipo_servicio?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          area_id?: string | null
+          created_at?: string | null
+          estado?: string | null
+          fecha_registro?: string | null
+          id?: string
+          nombre_cliente?: string
+          ruc?: string
+          sede_id?: string
+          tipo_servicio?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "clientes_actuales_area_id_fkey"
+            columns: ["area_id"]
+            isOneToOne: false
+            referencedRelation: "areas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "clientes_actuales_sede_id_fkey"
+            columns: ["sede_id"]
+            isOneToOne: false
+            referencedRelation: "sedes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      consultas: {
+        Row: {
+          created_at: string | null
+          estado_final: Database["public"]["Enums"]["estado_consulta"] | null
+          fecha_consulta: string | null
+          id: string
+          nombre_potencial_cliente: string
+          ruc_potencial_cliente: string
+          tiene_conflicto: boolean | null
+          tipo_servicio: string | null
+          updated_at: string | null
+          usuario_solicitante: string
+        }
+        Insert: {
+          created_at?: string | null
+          estado_final?: Database["public"]["Enums"]["estado_consulta"] | null
+          fecha_consulta?: string | null
+          id?: string
+          nombre_potencial_cliente: string
+          ruc_potencial_cliente: string
+          tiene_conflicto?: boolean | null
+          tipo_servicio?: string | null
+          updated_at?: string | null
+          usuario_solicitante: string
+        }
+        Update: {
+          created_at?: string | null
+          estado_final?: Database["public"]["Enums"]["estado_consulta"] | null
+          fecha_consulta?: string | null
+          id?: string
+          nombre_potencial_cliente?: string
+          ruc_potencial_cliente?: string
+          tiene_conflicto?: boolean | null
+          tipo_servicio?: string | null
+          updated_at?: string | null
+          usuario_solicitante?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "consultas_usuario_solicitante_fkey"
+            columns: ["usuario_solicitante"]
+            isOneToOne: false
+            referencedRelation: "usuarios"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notificaciones: {
+        Row: {
+          consulta_id: string | null
+          created_at: string | null
+          estado: string | null
+          fecha_envio: string | null
+          id: string
+          leida: boolean | null
+          notificacion_nombre: string
+          tipo_notificacion: Database["public"]["Enums"]["tipo_notificacion"]
+          updated_at: string | null
+          usuario_destinatario: string
+        }
+        Insert: {
+          consulta_id?: string | null
+          created_at?: string | null
+          estado?: string | null
+          fecha_envio?: string | null
+          id?: string
+          leida?: boolean | null
+          notificacion_nombre: string
+          tipo_notificacion: Database["public"]["Enums"]["tipo_notificacion"]
+          updated_at?: string | null
+          usuario_destinatario: string
+        }
+        Update: {
+          consulta_id?: string | null
+          created_at?: string | null
+          estado?: string | null
+          fecha_envio?: string | null
+          id?: string
+          leida?: boolean | null
+          notificacion_nombre?: string
+          tipo_notificacion?: Database["public"]["Enums"]["tipo_notificacion"]
+          updated_at?: string | null
+          usuario_destinatario?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notificaciones_consulta_id_fkey"
+            columns: ["consulta_id"]
+            isOneToOne: false
+            referencedRelation: "consultas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notificaciones_usuario_destinatario_fkey"
+            columns: ["usuario_destinatario"]
+            isOneToOne: false
+            referencedRelation: "usuarios"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      respuestas: {
+        Row: {
+          comentario: string | null
+          consulta_id: string
+          created_at: string | null
+          estado_respuesta: Database["public"]["Enums"]["estado_respuesta_type"]
+          fecha_respuesta: string | null
+          id: string
+          updated_at: string | null
+          usuario_respondedor: string
+        }
+        Insert: {
+          comentario?: string | null
+          consulta_id: string
+          created_at?: string | null
+          estado_respuesta: Database["public"]["Enums"]["estado_respuesta_type"]
+          fecha_respuesta?: string | null
+          id?: string
+          updated_at?: string | null
+          usuario_respondedor: string
+        }
+        Update: {
+          comentario?: string | null
+          consulta_id?: string
+          created_at?: string | null
+          estado_respuesta?: Database["public"]["Enums"]["estado_respuesta_type"]
+          fecha_respuesta?: string | null
+          id?: string
+          updated_at?: string | null
+          usuario_respondedor?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "respuestas_consulta_id_fkey"
+            columns: ["consulta_id"]
+            isOneToOne: false
+            referencedRelation: "consultas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "respuestas_usuario_respondedor_fkey"
+            columns: ["usuario_respondedor"]
+            isOneToOne: false
+            referencedRelation: "usuarios"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sedes: {
+        Row: {
+          correo_contacto: string
+          created_at: string | null
+          direccion: string | null
+          id: string
+          nombre_sede: string
+          updated_at: string | null
+        }
+        Insert: {
+          correo_contacto: string
+          created_at?: string | null
+          direccion?: string | null
+          id?: string
+          nombre_sede: string
+          updated_at?: string | null
+        }
+        Update: {
+          correo_contacto?: string
+          created_at?: string | null
+          direccion?: string | null
+          id?: string
+          nombre_sede?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string | null
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      usuarios: {
+        Row: {
+          correo_electronico: string
+          created_at: string | null
+          id: string
+          nombre_usuario: string
+          rol: Database["public"]["Enums"]["app_role"]
+          sede_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          correo_electronico: string
+          created_at?: string | null
+          id: string
+          nombre_usuario: string
+          rol?: Database["public"]["Enums"]["app_role"]
+          sede_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          correo_electronico?: string
+          created_at?: string | null
+          id?: string
+          nombre_usuario?: string
+          rol?: Database["public"]["Enums"]["app_role"]
+          sede_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "usuarios_sede_id_fkey"
+            columns: ["sede_id"]
+            isOneToOne: false
+            referencedRelation: "sedes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_user_role: {
+        Args: { _user_id: string }
+        Returns: Database["public"]["Enums"]["app_role"]
+      }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin_central" | "admin_sede" | "usuario_normal"
+      estado_consulta: "pendiente" | "en_proceso" | "escalado" | "finalizado"
+      estado_respuesta_type:
+        | "sin_conflicto"
+        | "con_conflicto"
+        | "requiere_escalacion"
+      tipo_notificacion:
+        | "nueva_consulta"
+        | "recordatorio"
+        | "escalacion"
+        | "finalizacion"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +541,20 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin_central", "admin_sede", "usuario_normal"],
+      estado_consulta: ["pendiente", "en_proceso", "escalado", "finalizado"],
+      estado_respuesta_type: [
+        "sin_conflicto",
+        "con_conflicto",
+        "requiere_escalacion",
+      ],
+      tipo_notificacion: [
+        "nueva_consulta",
+        "recordatorio",
+        "escalacion",
+        "finalizacion",
+      ],
+    },
   },
 } as const
